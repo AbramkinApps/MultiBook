@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFB77D49"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="#ffecc6"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/notebook"/>
+
+            <ImageButton
+                android:id="@+id/imagePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="#ffecc6"
+                android:clickable="true"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/photocam"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFB77D49"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageVoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="false"
+                android:background="#ffecc6"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mic"/>
+
+            <ImageButton
+                android:id="@+id/imagePicture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffecc6"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/paintbrush"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+

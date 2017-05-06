@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/mainTheme"
+             tools:context="com.abramkin.multibook.TextScreenActivity">
+
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:textColor="@color/colorPrimary"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:gravity="left|top"
+        android:hint="@string/hint_for_text"
+        android:inputType="textMultiLine">
+    </EditText>
+
+
+
+</FrameLayout>

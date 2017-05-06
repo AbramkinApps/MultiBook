@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_for_text">Сохранение по нажатию клавиши \"Назад\".</string>
+    <string name="title_activity_photo_choice_screen">Фото</string>
+    <string name="title_activity_picture_choice_screen">Рисунки</string>
+    <string name="title_activity_text_choice_screen">Заметки</string>
+    <string name="title_activity_text_screen">Новая заметка</string>
+    <string name="title_activity_voice_choice_screen">Записи</string>
+    <string name="title_activity_voice_screen">Новая запись</string>
+    <string name="title_alert_delete">Удалить?</string>
+    <string name="button_alert_yes">Да</string>
+    <string name="button_alert_no">Нет</string>
+    <string name="message_saved">Сохранено</string>
+    <string name="message_deleted">Удалено</string>
+    <string name="title_alert_save">Сохранить?</string>
+</resources>

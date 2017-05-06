@@ -1,0 +1,37 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffecc6"
+    android:orientation="horizontal">
+
+    <Chronometer
+        android:id="@+id/chron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFB77D49"
+        android:textSize="72sp"
+        android:textStyle="italic"
+        android:visibility="visible"
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <ImageButton
+        android:id="@+id/startRecord"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="#ffecc6"
+        android:scaleType="fitCenter"
+        android:src="@drawable/startrecord"
+        android:layout_marginRight="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+
+</RelativeLayout>

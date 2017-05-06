@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name" translatable="false">MultiBook</string>
+    <string name="title_activity_text_screen">New note</string>
+    <string name="title_activity_text_choice_screen">Notes</string>
+    <string name="title_activity_photo_choice_screen">Photo</string>
+    <string name="title_activity_voice_choice_screen">Records</string>
+    <string name="title_activity_picture_choice_screen">Pictures</string>
+    <string name="title_activity_voice_screen">New record</string>
+    <string name="hint_for_text">Saving by pressing the \"Back\" button</string>
+    <string name="title_alert_delete">Delete?</string>
+    <string name="button_alert_yes">Yes</string>
+    <string name="button_alert_no">No</string>
+    <string name="message_saved">Saved</string>
+    <string name="message_deleted">Deleted</string>
+    <string name="title_alert_save">Save?</string>
+</resources>
