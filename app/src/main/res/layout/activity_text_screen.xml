@@ -17,6 +17,8 @@
         android:gravity="left|top"
         android:hint="@string/hint_for_text"
         android:inputType="textMultiLine">
+
+        <requestFocus />
     </EditText>
 
 

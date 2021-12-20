@@ -2,11 +2,13 @@ package com.abramkin.multibook;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PictureChoiceScreenActivity extends ChoiceClass {
 
@@ -19,15 +21,15 @@ public class PictureChoiceScreenActivity extends ChoiceClass {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_choice_screen);
 
-        lv = (ListView) findViewById(R.id.listViewPicture) ;
+        lv = findViewById(R.id.listViewPicture);
 
-        newPicture = (FloatingActionButton) findViewById(R.id.newPictureButton);
+        newPicture = findViewById(R.id.newPictureButton);
         newPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PictureChoiceScreenActivity.this, PictureScreenActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.trans_new,R.anim.alpha);
+                // overridePendingTransition(R.anim.trans_new,R.anim.alpha);
             }
         });
     }
@@ -36,10 +38,10 @@ public class PictureChoiceScreenActivity extends ChoiceClass {
     protected void onResume() {
         super.onResume();
 
-        showFiles(this, false, true, "Pictures/", lv, PictureScreenActivity.class);
+        showFiles(this, false, true, getExternalFilesDir(null).toString() + "/MultiBook/" + "Pictures", lv);
 
-        Animation anim_lv = AnimationUtils.loadAnimation(this, R.anim.trans_lv);
-        lv.startAnimation(anim_lv);
+        //  Animation anim_lv = AnimationUtils.loadAnimation(this, R.anim.trans_lv);
+        //  lv.startAnimation(anim_lv);
 
         Animation anim_fab = AnimationUtils.loadAnimation(this, R.anim.fab);
         newPicture.startAnimation(anim_fab);

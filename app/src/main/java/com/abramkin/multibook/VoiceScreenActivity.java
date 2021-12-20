@@ -4,22 +4,25 @@ package com.abramkin.multibook;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import static android.widget.Toast.makeText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class VoiceScreenActivity extends AppCompatActivity {
 
-    String pathVoices = Environment.getExternalStorageDirectory().toString() + "/MultiBook/Voices/";
     MediaRecorder mrec = null;
     ImageButton startRecording = null;
     File audiofile;
@@ -32,28 +35,31 @@ public class VoiceScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_screen);
 
-        if (mrec==null) mrec = new MediaRecorder();
+        RequestUserPermission requestUserPermission = new RequestUserPermission(this);
+        requestUserPermission.verifyRecordAudioPermissions();
 
-        startRecording = (ImageButton) findViewById(R.id.startRecord);
+        if (mrec == null) mrec = new MediaRecorder();
 
-        chron = (Chronometer) findViewById(R.id.chron);
+        startRecording = findViewById(R.id.startRecord);
+
+        chron = findViewById(R.id.chron);
         chron.setBase(SystemClock.elapsedRealtime());
 
         chron.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-           @Override
-           public void onChronometerTick(Chronometer chronometer) {
-               long elapsedMillis = SystemClock.elapsedRealtime() - chron.getBase();
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long elapsedMillis = SystemClock.elapsedRealtime() - chron.getBase();
 
-               if (elapsedMillis > 300000) {
-                   chron.stop();
-                   stopRecording();
+                if (elapsedMillis > 300000) {
+                    chron.stop();
+                    stopRecording();
 
-                   startRecording.setImageResource(R.drawable.startrecord);
+                    startRecording.setImageResource(R.drawable.startrecord);
 
-                   makeText(getApplicationContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
-               }
-           }
-           });
+                    makeText(getApplicationContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         startRecording.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -67,18 +73,17 @@ public class VoiceScreenActivity extends AppCompatActivity {
 
                         startRecording.setImageResource(R.drawable.stoprecord);
 
-                        rec=true;
-                    }
-                    else {
+                        rec = true;
+                    } else {
 
                         chron.stop();
                         stopRecording();
 
                         startRecording.setImageResource(R.drawable.startrecord);
 
-                        rec=false;
+                        rec = false;
 
-                   makeText(getApplicationContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
+                        makeText(getApplicationContext(), R.string.message_saved, Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -103,19 +108,24 @@ public class VoiceScreenActivity extends AppCompatActivity {
     void startRecording() throws IOException {
 
         mrec.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mrec.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        mrec.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mrec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mrec.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mrec.setAudioEncodingBitRate(128000);
+        mrec.setAudioSamplingRate(44100);
 
         if (audiofile == null) {
-            File root = new File(pathVoices);
+            String path = getExternalFilesDir(null).toString() + "/MultiBook/Voices/";
+
+            File root = new File(path);
             if (!root.exists()) {
                 root.mkdirs();
             }
-                Date date = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("d-MM-yyyy HH`mm`ss");
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("d-MM-yyyy HH`mm`ss");
 
-                filename = dateFormat.format(date).toString()+".amr";
-                audiofile = new File(pathVoices,filename);
+            filename = dateFormat.format(date).toString() + ".mp3";
+
+            audiofile = new File(path, filename);
         }
 
         mrec.setOutputFile(audiofile.getAbsolutePath());
@@ -130,8 +140,8 @@ public class VoiceScreenActivity extends AppCompatActivity {
         this.finish();
     }
 
-     void delFile(String filename) {
-        File file = new File(this.pathVoices, filename);
+    void delFile(String filename) {
+        File file = new File(getExternalFilesDir(null), filename);
         if (file.exists()) {
             file.delete();
         }

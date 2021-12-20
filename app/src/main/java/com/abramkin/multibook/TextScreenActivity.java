@@ -2,11 +2,13 @@ package com.abramkin.multibook;
 
 import android.content.Context;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +19,6 @@ import java.util.Date;
 
 public class TextScreenActivity extends AppCompatActivity {
 
-    String path = Environment.getExternalStorageDirectory().toString()+"/MultiBook/Texts/";
     EditText edt;
     String filename;
 
@@ -26,10 +27,10 @@ public class TextScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_text_screen);
-        edt = (EditText) findViewById(R.id.editText);
+        edt = findViewById(R.id.editText);
 
-        if (getIntent().getStringExtra("BODY")!=null)
-        edt.setText(getIntent().getStringExtra("BODY"));
+        if (getIntent().getStringExtra("BODY") != null)
+            edt.setText(getIntent().getStringExtra("BODY"));
     }
 
     @Override
@@ -44,27 +45,30 @@ public class TextScreenActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (getIntent().getStringExtra("FILENAME")!=null) {
-            saveFile(getIntent().getStringExtra("FILENAME"),edt.getText().toString());
-        }
-        else {
+        if (getIntent().getStringExtra("FILENAME") != null) {
+            saveFile(getIntent().getStringExtra("FILENAME"), edt.getText().toString());
+        } else {
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("d-MM-yyyy HH-mm-ss");
 
-            filename = dateFormat.format(date).toString()+".txt";
+            filename = dateFormat.format(date).toString() + ".txt";
 
             if (!edt.getText().toString().isEmpty())
-                saveFile(filename,edt.getText().toString()); }
+                saveFile(filename, edt.getText().toString());
+        }
     }
 
     void saveFile(String filename, String body) {
 
         try {
-            File root = new File(this.path);
+            String path = getExternalFilesDir(null).toString() + "/MultiBook/Texts/";
+            File root = new File(path);
             if (!root.exists()) {
                 root.mkdirs();
             }
-            File file = new File(root, filename);
+
+
+            File file = new File(path, filename);
 
             if (!file.exists())
                 file.createNewFile();
@@ -79,7 +83,7 @@ public class TextScreenActivity extends AppCompatActivity {
             writer.flush();
             writer.close();
 
-            Toast.makeText(TextScreenActivity.this,R.string.message_saved,Toast.LENGTH_SHORT).show();
+            Toast.makeText(TextScreenActivity.this, R.string.message_saved, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

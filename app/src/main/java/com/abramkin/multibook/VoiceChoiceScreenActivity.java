@@ -2,11 +2,13 @@ package com.abramkin.multibook;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VoiceChoiceScreenActivity extends ChoiceClass {
 
@@ -20,15 +22,15 @@ public class VoiceChoiceScreenActivity extends ChoiceClass {
 
         setContentView(R.layout.activity_voice_choice_screen);
 
-        lv = (ListView) findViewById(R.id.listViewVoice) ;
+        lv = findViewById(R.id.listViewVoice);
 
-        newVoice = (FloatingActionButton) findViewById(R.id.newVoiceButton);
+        newVoice = findViewById(R.id.newVoiceButton);
         newVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VoiceChoiceScreenActivity.this, VoiceScreenActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.trans_new,R.anim.alpha);
+
             }
         });
     }
@@ -37,7 +39,7 @@ public class VoiceChoiceScreenActivity extends ChoiceClass {
     protected void onResume() {
         super.onResume();
 
-        showFiles(this, false, false, "Voices/", lv, VoiceScreenActivity.class);
+        showFiles(this, false, false, getExternalFilesDir(null) + "/MultiBook/" + "Voices", lv);
 
         Animation anim_lv = AnimationUtils.loadAnimation(this, R.anim.trans_lv);
         lv.startAnimation(anim_lv);

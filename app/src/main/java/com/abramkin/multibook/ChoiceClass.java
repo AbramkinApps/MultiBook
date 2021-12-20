@@ -6,13 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,8 +28,8 @@ import java.util.Map;
 
 public class ChoiceClass extends AppCompatActivity {
 
-    static final String PATH = Environment.getExternalStorageDirectory().toString() + "/MultiBook/";
-    static final String ATTRIBUTE_NAME_IMAGE = "image";
+
+    final String ATTRIBUTE_NAME_IMAGE = "image";
 
     String names, absolutePath;
     String[] namesOfFiles;
@@ -37,14 +39,18 @@ public class ChoiceClass extends AppCompatActivity {
     Context context;
     boolean isText, isPicture, empty = false;
 
-    public void showFiles(Context cntx, boolean isT, boolean isP, String path, ListView lv, Class<?> cl) {
+    public void showFiles(Context cntx, boolean isT, boolean isP, String path, ListView lv) {
 
         context = cntx;
         isText = isT;
         isPicture = isP;
 
-        absolutePath = PATH + path;
+        absolutePath = path;
         root = new File(this.absolutePath);
+
+        if (!root.exists()) {
+            root.mkdirs();
+        }
 
         filesArray = root.listFiles();
 
@@ -71,6 +77,7 @@ public class ChoiceClass extends AppCompatActivity {
                 String[] from = {ATTRIBUTE_NAME_IMAGE};
 
                 int[] to = {R.id.im};
+
 
                 SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.item, from, to);
 
@@ -106,16 +113,6 @@ public class ChoiceClass extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_list, namesOfFiles);
 
                 lv.setAdapter(adapter);
-            }
-        } else {
-
-            if (empty) {
-                this.finish();
-            } else {
-                empty = true;
-                Intent intent = new Intent(context, cl);
-                startActivity(intent);
-
             }
         }
 
@@ -164,7 +161,10 @@ public class ChoiceClass extends AppCompatActivity {
                 if (isPicture) {
 
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(filesArray[filesArray.length - position - 1]), "image/*");
+                    intent.setDataAndType(FileProvider.getUriForFile(ChoiceClass.this,
+                            BuildConfig.APPLICATION_ID + ".provider",
+                            filesArray[filesArray.length - position - 1]), "image/*");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                     context.startActivity(intent);
                 } else {
@@ -175,12 +175,15 @@ public class ChoiceClass extends AppCompatActivity {
                         String nameOfFile = (String) filesArray[filesArray.length - position - 1].getName();
                         intent.putExtra("BODY", openFile(nameOfFile));
                         intent.putExtra("FILENAME", nameOfFile);
-
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         context.startActivity(intent);
                     } else {
 
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.fromFile(filesArray[filesArray.length - position - 1]), "audio/*");
+                        intent.setDataAndType(FileProvider.getUriForFile(ChoiceClass.this,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                filesArray[filesArray.length - position - 1]), "audio/*");
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         context.startActivity(intent);
 
                     }
@@ -212,4 +215,5 @@ public class ChoiceClass extends AppCompatActivity {
         }
         return text.toString();
     }
+
 }

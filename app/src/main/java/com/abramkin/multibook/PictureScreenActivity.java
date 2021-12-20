@@ -10,7 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,6 +21,8 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -29,7 +31,6 @@ import java.util.Random;
 
 public class PictureScreenActivity extends AppCompatActivity {
 
-    String path = Environment.getExternalStorageDirectory().toString()+"/MultiBook/Pictures/";
     MySurfaceView msf;
     Bitmap bmp;
     Canvas imCanvas;
@@ -72,7 +73,7 @@ public class PictureScreenActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
 
                     try {
-
+                        String path = getExternalFilesDir(null).toString() + "/MultiBook/Pictures/";
                         File root = new File(path);
                         if (!root.exists()) {
                             root.mkdirs();
@@ -81,6 +82,7 @@ public class PictureScreenActivity extends AppCompatActivity {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("d-MM-yyyy HH-mm-ss");
 
                         String filename = dateFormat.format(date).toString() + ".jpg";
+
                         File pictureFile = new File(path, filename);
                         FileOutputStream fos = new FileOutputStream(pictureFile);
                         bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -107,8 +109,7 @@ public class PictureScreenActivity extends AppCompatActivity {
             ad.setCancelable(true);
             ad.create();
             ad.show();
-        }
-        else PictureScreenActivity.this.finish();
+        } else PictureScreenActivity.this.finish();
     }
 
     class MySurfaceView extends SurfaceView {

@@ -1,14 +1,19 @@
 package com.abramkin.multibook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
 
 public class StartScreenActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -19,15 +24,21 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnTou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
 
-        imText = (ImageButton) findViewById(R.id.imageText);
-        imPhoto = (ImageButton) findViewById(R.id.imagePhoto);
-        imVoice = (ImageButton) findViewById(R.id.imageVoice);
-        imPicture = (ImageButton) findViewById(R.id.imagePicture);
+        imText = findViewById(R.id.imageText);
+        imPhoto = findViewById(R.id.imagePhoto);
+        imVoice = findViewById(R.id.imageVoice);
+        imPicture = findViewById(R.id.imagePicture);
 
         imText.setOnTouchListener(this);
         imPhoto.setOnTouchListener(this);
         imVoice.setOnTouchListener(this);
         imPicture.setOnTouchListener(this);
+
+
+        RequestUserPermission requestUserPermission = new RequestUserPermission(this);
+        requestUserPermission.verifyStoragePermissions();
+
+
     }
 
     @Override
@@ -51,7 +62,6 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnTou
     public boolean onTouch(View v, MotionEvent event) {
 
         ImageButton imb = (ImageButton) v;
-        Intent intent;
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
@@ -64,30 +74,73 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnTou
             switch (v.getId()) {
                 case R.id.imageText:
 
-                    intent = new Intent(StartScreenActivity.this, TextChoiceScreenActivity.class);
-                    startActivity(intent);
+                    if (checkDirectory(getExternalFilesDir(null) + "/MultiBook/" + "Texts")) {
+
+                        startNewActivity(this, TextChoiceScreenActivity.class);
+
+                    } else {
+
+                        startNewActivity(this, TextScreenActivity.class);
+                    }
                     break;
 
                 case R.id.imagePhoto:
 
-                    intent = new Intent(StartScreenActivity.this, PhotoChoiceScreenActivity.class);
-                    startActivity(intent);
+                    startNewActivity(this, PhotoChoiceScreenActivity.class);
+
                     break;
 
                 case R.id.imageVoice:
 
-                    intent = new Intent(StartScreenActivity.this, VoiceChoiceScreenActivity.class);
-                    startActivity(intent);
+                    if (checkDirectory(getExternalFilesDir(null) + "/MultiBook/" + "Voices")) {
+
+                        startNewActivity(this, VoiceChoiceScreenActivity.class);
+
+                    } else {
+
+                        startNewActivity(this, VoiceScreenActivity.class);
+                    }
                     break;
 
                 case R.id.imagePicture:
 
-                    intent = new Intent(StartScreenActivity.this, PictureChoiceScreenActivity.class);
-                    startActivity(intent);
+                    if (checkDirectory(getExternalFilesDir(null).toString() + "/MultiBook/" + "Pictures")) {
+
+                        startNewActivity(this, PictureChoiceScreenActivity.class);
+
+                    } else {
+
+                        startNewActivity(this, PictureScreenActivity.class);
+                    }
                     break;
 
             }
         }
         return true;
+    }
+
+    public void startNewActivity(Context cntx, Class<?> cl) {
+
+        Intent intent;
+        intent = new Intent(cntx, cl);
+        startActivity(intent);
+    }
+
+    static Boolean checkDirectory(String path) {
+
+        File root;
+        File[] filesArray;
+
+        root = new File(path);
+
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+
+        filesArray = root.listFiles();
+
+
+        return ((filesArray != null) && (filesArray.length != 0));
+
     }
 }
